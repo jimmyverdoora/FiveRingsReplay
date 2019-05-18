@@ -82,19 +82,12 @@ class TierList(object):
         losses = [0] * n
         for game in self.games:
             if game.p1_stronghold and game.p2_stronghold:
-
-                # Hardcoded because it's an exception
-                if game.p1_stronghold == "Hisu Mori Toride":
-                    game.p1_stronghold == "Hisu Mori Toride (%s)" % game.p2_clan
-                if game.p2_stronghold == "Hisu Mori Toride":
-                    game.p2_stronghold == "Hisu Mori Toride (%s)" % game.p2_clan
-
                 if game.p1_points > game.p2_points:
-                    winner = game.p1_stronghold
-                    loser = game.p2_stronghold
+                    winner = self._stronghold(game, "p1")
+                    loser = self._stronghold(game, "p2")
                 else:
-                    winner = game.p2_stronghold
-                    loser = game.p1_stronghold
+                    winner = self._stronghold(game, "p2")
+                    loser = self._stronghold(game, "p1") 
                 wins[REV_STRONGHOLDS[winner]] += 1
                 losses[REV_STRONGHOLDS[loser]] += 1
 
@@ -113,4 +106,18 @@ class TierList(object):
         for index, rate in enumerate(winrates):
             print(30 * " " + str(int(10000 * rate) / 100), end='\r')
             print(STRONGHOLDS[index])
+    
+    @staticmethod
+    def _stronghold(game, player):
+        # Hardcoded because it's an exception
+        if player == "p1":
+            if game.p1_stronghold == "Hisu Mori Toride":
+                return "Hisu Mori Toride (%s)" % game.p1_clan
+            else:
+                return game.p1_stronghold
+        else:
+            if game.p2_stronghold == "Hisu Mori Toride":
+                return "Hisu Mori Toride (%s)" % game.p2_clan
+            else:
+                return game.p2_stronghold
 
