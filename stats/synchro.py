@@ -50,8 +50,8 @@ def update_db(filter_byes=True):
     print(str(total) + " new tournaments to add.")
     outside = True
     current_tournament = None
-    for index, tourney in enumerate(result):
-        print("Current tourney: " + str(index + 1) + " over " + str(total) + ".", end="\r")
+    for t_index, tourney in enumerate(result):
+        print("Current tourney: " + str(t_index + 1) + " over " + str(total) + ".", end="\r")
         if outside:
             if tourney["tournament_id"] == last_tournament_id: outside = False
         else:
@@ -73,6 +73,7 @@ def update_db(filter_byes=True):
             # Fetching games of the specific tourney I just created
             games = []
             # It is possible that more than 50 games are played in a tournament
+            index = 1
             while True:
                 response = requests.get("http://thelotuspavilion.com/api/v3/games?tournament_id="\
                         + str(tourney['tournament_id']) + "&page=" + str(index))
