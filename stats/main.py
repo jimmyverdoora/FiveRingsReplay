@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 from stats.models import Tournament
-from stats.names import CLANS, REV_CLANS
+from stats.names import CLANS, REV_CLANS, STRONGHOLDS, REV_STRONGHOLDS
 
 
 class TierList(object):
@@ -71,4 +71,46 @@ class TierList(object):
         for index, rate in enumerate(winrates):
             print(10 * " " + str(int(10000 * rate) / 100), end='\r')
             print(CLANS[index])
+
+    def get_stronghold_tier(self):
+        """
+        Returns the tier list by each clan
+        """
+        # Calculates wins/losses
+        n = len(STRONGHOLDS.keys)
+        wins = [0] * n
+        losses = [0] * n
+        for game in self.games:
+            if game.p1_stronghold and game.p2_stronghold:
+
+                # Hardcoded because it's an exception
+                if game.p1_stronghold == "Hisu Mori Toride":
+                    game.p1_stronghold == "Hisu Mori Toride (%s)" % game.p2_clan
+                if game.p2_stronghold == "Hisu Mori Toride":
+                    game.p2_stronghold == "Hisu Mori Toride (%s)" % game.p2_clan
+
+                if game.p1_points > game.p2_points:
+                    winner = game.p1_stronghold
+                    loser = game.p2_stronghold
+                else:
+                    winner = game.p2_stronghold
+                    loser = game.p1_stronghold
+                wins[REV_STRONGHOLDS[winner]] += 1
+                losses[REV_STRONGHOLDS[loser]] += 1
+
+        # Calculates winrates
+        winrates = []
+        for index in range(n):
+            winrates.append(wins[index] / (wins[index] + losses[index]))
+        
+        return winrates
+
+    def print_stronghold_tier(self):
+        """
+        Prints the tier list to console
+        """
+        winrates = self.get_stronghold_tier()
+        for index, rate in enumerate(winrates):
+            print(30 * " " + str(int(10000 * rate) / 100), end='\r')
+            print(STRONGHOLDS[index])
 
