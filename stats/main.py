@@ -99,20 +99,23 @@ class TierList(object):
 
         # Calculates winrates
         winrates = []
+        tots = []
         for index in range(n):
             tot = wins[index] + losses[index]
             if tot > 0:
                 winrates.append(wins[index] / tot)
             else:
                 winrates.append(None) 
-        return winrates
+            tots.append(tot)
+        return winrates, tots
 
     def print_stronghold_tier(self):
         """
         Prints the tier list to console
         """
-        winrates = self.get_stronghold_tier()
+        winrates, tots = self.get_stronghold_tier()
         for index, rate in enumerate(winrates):
+            print(36 * " " + "(%d)" % tots[index])
             if rate is None:
                 print(30 * " " + "--.--", end='\r')
             else:
