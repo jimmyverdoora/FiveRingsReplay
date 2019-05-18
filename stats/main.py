@@ -77,7 +77,7 @@ class TierList(object):
         Returns the tier list by each clan
         """
         # Calculates wins/losses
-        n = len(STRONGHOLDS.keys)
+        n = len(STRONGHOLDS.keys())
         wins = [0] * n
         losses = [0] * n
         for game in self.games:
