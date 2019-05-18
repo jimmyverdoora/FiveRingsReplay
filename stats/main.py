@@ -115,7 +115,7 @@ class TierList(object):
         """
         winrates, tots = self.get_stronghold_tier()
         for index, rate in enumerate(winrates):
-            print(36 * " " + "(%d)" % tots[index])
+            print(36 * " " + "(%d)" % tots[index], end='\r')
             if rate is None:
                 print(30 * " " + "--.--", end='\r')
             else:
