@@ -59,8 +59,11 @@ class TierList(object):
         # Calculates winrates
         winrates = []
         for index in range(7):
-            winrates.append(wins[index] / (wins[index] + losses[index]))
-        
+            tot = wins[index] + losses[index]
+            if tot > 0:
+                winrates.append(wins[index] / tot)
+            else:
+                winrates.append(None)        
         return winrates
 
     def print_clan_tier(self):
@@ -69,7 +72,10 @@ class TierList(object):
         """
         winrates = self.get_clan_tier()
         for index, rate in enumerate(winrates):
-            print(10 * " " + str(int(10000 * rate) / 100), end='\r')
+            if rate is None:
+                print(10 * " " + "--.--", end='\r')
+            else:
+                print(10 * " " + str(int(10000 * rate) / 100), end='\r')
             print(CLANS[index])
 
     def get_stronghold_tier(self):
@@ -81,7 +87,7 @@ class TierList(object):
         wins = [0] * n
         losses = [0] * n
         for game in self.games:
-            if game.p1_stronghold and game.p2_stronghold:
+            if self._check_stronghold(game):
                 if game.p1_points > game.p2_points:
                     winner = self._stronghold(game, "p1")
                     loser = self._stronghold(game, "p2")
@@ -94,8 +100,11 @@ class TierList(object):
         # Calculates winrates
         winrates = []
         for index in range(n):
-            winrates.append(wins[index] / (wins[index] + losses[index]))
-        
+            tot = wins[index] + losses[index]
+            if tot > 0:
+                winrates.append(wins[index] / tot)
+            else:
+                winrates.append(None) 
         return winrates
 
     def print_stronghold_tier(self):
@@ -104,7 +113,10 @@ class TierList(object):
         """
         winrates = self.get_stronghold_tier()
         for index, rate in enumerate(winrates):
-            print(30 * " " + str(int(10000 * rate) / 100), end='\r')
+            if rate is None:
+                print(30 * " " + "--.--", end='\r')
+            else:
+                print(30 * " " + str(int(10000 * rate) / 100), end='\r')
             print(STRONGHOLDS[index])
     
     @staticmethod
@@ -120,4 +132,13 @@ class TierList(object):
                 return "Hisu Mori Toride (%s)" % game.p2_clan
             else:
                 return game.p2_stronghold
+    
+    def _check_stronghold(self, game):
+        if game.p1_stronghold is None or game.p2_stronghold is None:
+            return False
+        if self._stronghold(game, "p1") not in REV_STRONGHOLDS.keys():
+            return False
+        if self._stronghold(game, "p2") not in REV_STRONGHOLDS.keys():
+            return False
+        return True
 
