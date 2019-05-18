@@ -35,6 +35,7 @@ class TierList(object):
         # Adds the games inside the interval
         while tournament_index <= total and tournaments[total - tournament_index].tournament_date > self.start_date:
             games += list(tournaments[total - tournament_index].games.all())
+            tournament_index += 1
         
         return games
 
