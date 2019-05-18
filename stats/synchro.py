@@ -51,7 +51,7 @@ def update_db(filter_byes=True):
     outside = True
     current_tournament = None
     for index, tourney in enumerate(result):
-        print("Current tourney: " + str(index) + " over " + str(total) + ".", end="\r")
+        print("Current tourney: " + str(index + 1) + " over " + str(total) + ".", end="\r")
         if outside:
             if tourney["tournament_id"] == last_tournament_id: outside = False
         else:
