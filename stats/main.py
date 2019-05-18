@@ -15,7 +15,7 @@ class TierList(object):
             self.end_date = end_date
 
         if start_date is None:
-            self.start_date = end_date - timedelta(days=30)
+            self.start_date = self.end_date - timedelta(days=30)
         else:
             self.start_date = start_date
 
