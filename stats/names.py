@@ -16,6 +16,15 @@ REV_CLANS = {
         "Scorpion": 5,
         "Unicorn": 6}
 
+COLORS = {
+        0: "rgb(0,28,148)",
+        1: "rgb(0,137,222)",
+        2: "rgb(0,164,114)",
+        3: "rgb(203,157,0)",
+        4: "rgb(193,100,0)",
+        5: "rgb(166,22,0)",
+        6: "rgb(120,0,152)"}
+
 STRONGHOLDS = {
         # Crab
         0: "Shiro Nishiyama",

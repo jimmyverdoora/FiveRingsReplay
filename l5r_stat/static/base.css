@@ -1,0 +1,9 @@
+body {
+  font-family: 'CatCafe'
+}
+
+@font-face {
+  font-family: 'CatCafe';
+  src:url(/static/CatCafe.ttf) format('truetype');
+}
+
