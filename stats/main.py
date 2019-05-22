@@ -1,9 +1,10 @@
 from datetime import datetime, timedelta
 from stats.models import Tournament
 from stats.names import CLANS, REV_CLANS, STRONGHOLDS, REV_STRONGHOLDS
+from numpy import zeros
 
 
-class TierList(object):
+class Manager(object):
     """
     Prints the tierlist of the clans and strongholds into a given time frame
     """
@@ -39,6 +40,27 @@ class TierList(object):
         
         return games
 
+    def get_clan_attendings(self):
+        attendings = zeros(7)
+        current_id = self.games[0].tournament_id
+        player_set = set()  # Of their ids
+        tmp_attendings = zeros(7)
+        for game in self.games:
+            if game.tournament_id != current_id:
+                if player_set:
+                    rounds = sum(tmp_attendings) / len(player_set)
+                    attendings += tmp_attendings / rounds
+                tmp_attendings = zeros(7)
+                player_set = set()
+                current_id = game.tournament_id
+            if game.topx == 0:
+                player_set.add(game.p1_id)
+                player_set.add(game.p2_id)
+                tmp_attendings[REV_CLANS[game.p1_clan]] += 1
+                tmp_attendings[REV_CLANS[game.p2_clan]] += 1
+
+        return [int(attendings[index]) for index in range(7)]
+
     def get_clan_tier(self):
         """
         Returns the tier list by each clan
@@ -66,17 +88,35 @@ class TierList(object):
                 winrates.append(None)        
         return winrates
 
-    def print_clan_tier(self):
+    def get_clan_tier_matrix(self):
         """
-        Prints the tier list to console
+        Returns the tier list by each clan
         """
-        winrates = self.get_clan_tier()
-        for index, rate in enumerate(winrates):
-            if rate is None:
-                print(10 * " " + "--.--", end='\r')
+        # Calculates wins/losses
+        wins = [[0] * 7 for _ in range(7)]
+        losses = [[0] * 7 for _ in range(7)]
+        for game in self.games:
+            if game.p1_points > game.p2_points:
+                winner = game.p1_clan
+                loser = game.p2_clan
             else:
-                print(10 * " " + str(int(10000 * rate) / 100), end='\r')
-            print(CLANS[index])
+                winner = game.p2_clan
+                loser = game.p1_clan
+            wins[REV_CLANS[winner]][REV_CLANS[loser]] += 1
+            losses[REV_CLANS[loser]][REV_CLANS[winner]] += 1
+
+        # Calculates winrates
+        winrates = []
+        for i in range(7):
+            tmp_list = []
+            for j in range(7):
+                tot = wins[i][j] + losses[i][j]
+                if tot > 0:
+                    tmp_list.append(wins[i][j] / tot)
+                else:
+                    tmp_list.append(None)        
+            winrates.append(tmp_list)
+        return winrates
 
     def get_stronghold_tier(self):
         """
@@ -108,6 +148,18 @@ class TierList(object):
                 winrates.append(None) 
             tots.append(tot)
         return winrates, tots
+
+    def print_clan_tier(self):
+        """
+        Prints the tier list to console
+        """
+        winrates = self.get_clan_tier()
+        for index, rate in enumerate(winrates):
+            if rate is None:
+                print(10 * " " + "--.--", end='\r')
+            else:
+                print(10 * " " + str(int(10000 * rate) / 100), end='\r')
+            print(CLANS[index])
 
     def print_stronghold_tier(self):
         """

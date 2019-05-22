@@ -7,17 +7,17 @@
       <div class="col-lg-6">
 	<div class="jumbotron border px-0 py-0" style="background-color: #FDF6E3;">
 	  <div class="pt-3" style="text-align: center;">
-	    <h3>Clan winrates, 30 days periods (up to)</h3>
+	    <h3>Clan winrates (%), 30 days periods (up to)</h3>
 	  </div>
-	  {{ time_chart|safe }}
+	  {{ time_winrates|safe }}
 	</div>
       </div>
       <div class="col-lg-6">
 	<div class="jumbotron border px-0 py-0" style="background-color: #FDF6E3;">
 	  <div class="pt-3" style="text-align: center;">
-	    <h3>Clan winrates, last 30 days</h3>
+	    <h3>Clan winrates (%), last 30 days</h3>
 	  </div>
-          {{ chart|safe }}
+          {{ winrates|safe }}
 	</div>
       </div>
     </div>
@@ -25,18 +25,39 @@
       <div class="col-lg-6">
 	<div class="jumbotron border px-0 py-0" style="background-color: #FDF6E3;">
 	  <div class="pt-3" style="text-align: center;">
-	    <h3>Clan attendings, 30 days periods (up to)</h3>
+	    <h3>Clan matchups (%), last 30 days</h3>
 	  </div>
-	  {{ time_chart|safe }}
+	  {{ matchups|safe }}
 	</div>
       </div>
       <div class="col-lg-6">
 	<div class="jumbotron border px-0 py-0" style="background-color: #FDF6E3;">
 	  <div class="pt-3" style="text-align: center;">
-	    <h3>Clan specific stats</h3>
+	    <h3>Clan attendings (players), last 30 days</h3>
 	  </div>
-          ...bottoni...
+	  <div class="row py-2 px-2">
+	    <div class="col-8">
+	      {{ attendings|safe }}
+	    </div>
+	    <div class="col-4 my-auto">
+	      {% for name, number in clans_att.items %}
+	        <h4>{{ name }}: {{ number }}</h4>
+	      {% endfor %}
+	    </div>
+	  </div>
 	</div>
+      </div>
+    </div>
+    <div class="jumbotron border px-0 py-0" style="background-color: #FDF6E3;">
+      <div class="row justify-content-center pt-2">
+	<div class="col-lg-2" style="text-align: center;">
+	  <h3>Clan specific stats:</h3>
+	</div>
+	{% for _, clan in clans.items %}
+	<div class="col-lg-1 mb-2" style="text-align: center;">
+	  <a type="button" href="/{{ clan }}" class="btn btn-outline-dark">{{ clan }}</a>
+	</div>
+	{% endfor %}
       </div>
     </div>
 
