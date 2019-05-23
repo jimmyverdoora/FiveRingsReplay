@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+#grad {
+  background-color: #1C1812;
+  background-image: linear-gradient(#1C1812, {{ color }});
+}
+</style>
+
+  <div class="container-fluid px-5" id="grad">
+    <div class="row">
+      <div class="col-lg-6">
+	<div class="jumbotron border px-0 py-0" style="background-color: #FDF6E3;">
+	  <div class="pt-3" style="text-align: center;">
+	    <h3>Stronghold winrates (%), last 30 days</h3>
+	  </div>
+          {{ winrates_stronghold|safe }}
+	</div>
+      </div>
+      <div class="col-lg-6">
+        <div class="jumbotron border px-0 py-0" style="background-color: #FDF6E3;">
+          <div class="pt-3" style="text-align: center;">
+	    <h3>Stronghold attendings (players), last 30 days</h3>
+	  </div>
+	  <div class="row py-2 px-2">
+	    <div class="col-8">
+	      {{ att_stronghold|safe }}
+	    </div>
+	    <div class="col-4 my-auto">
+	      {% for name, number in stronghold_att.items %}
+	        <h4>{{ name }}: {{ number }}</h4>
+	      {% endfor %}
+	    </div>
+	  </div>
+	</div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-6">
+	<div class="jumbotron border px-0 py-0" style="background-color: #FDF6E3;">
+	  <div class="pt-3" style="text-align: center;">
+	    <h3>{{ clan }} winrates VS (%), last 30 days</h3>
+	  </div>
+          {{ matchups|safe }}
+	</div>
+      </div>
+      <div class="col-lg-6">
+	<div class="jumbotron border px-0 py-0" style="background-color: #FDF6E3;">
+	  <div class="pt-3" style="text-align: center;">
+	    <h3>{{ clan }} winrates VS (%), 30 days periods</h3>
+	  </div>
+          {{ matchups_time|safe }}
+	</div>
+      </div>
+    </div>
+  </div>
+
+{% endblock content %}

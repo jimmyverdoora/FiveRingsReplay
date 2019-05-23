@@ -48,6 +48,14 @@ STRONGHOLDS = {
         12: "Hisu Mori Toride (Unicorn)",
         13: "Shiro Shinjo"}
 
+STRONGHOLDS_OWNERS = ["Crab"] * 1\
+                   + ["Crane"] * 2\
+                   + ["Dragon"] * 1\
+                   + ["Lion"] * 3\
+                   + ["Phoenix"] * 2\
+                   + ["Scorpion"] * 2\
+                   + ["Unicorn"] * 3
+
 REV_STRONGHOLDS = {
         # Crab
         "Shiro Nishiyama": 0,

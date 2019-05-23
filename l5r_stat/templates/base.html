@@ -14,8 +14,55 @@
   <title>Five Rings Stats</title>
 </head>
 <body style="background-color: #1C1812;">
-  <div class="container py-3" style="text-align: center">
-    <h1 style="color: #FDF6E3; font-size:300%">Five Rings Stats</h1>
+
+  <!-- navbar -->
+<nav class="navbar navbar-expand-lg navbar-light py-0" style="background-color: #FDF6E3;">
+
+  <div class="container">
+    <a class="navbar-brand" href="/">Five Rings Stats</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item active dropdown" style="display: inline">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Clans
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="background-color: #FDF6E3;">
+          <a class="dropdown-item" href="/Crab">Crab</a>
+          <a class="dropdown-item" href="/Crane">Crane</a>
+          <a class="dropdown-item" href="/Dragon">Dragon</a>
+          <a class="dropdown-item" href="/Lion">Lion</a>
+          <a class="dropdown-item" href="/Phoenix">Phoenix</a>
+          <a class="dropdown-item" href="/Scorpion">Scorpion</a>
+          <a class="dropdown-item" href="/Unicorn">Unicorn</a>
+        </div>
+      </li>
+
+      <li class="nav-item active dropdown" style="display: inline;">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Support
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown1" style="background-color: #FDF6E3;">
+          <a class="dropdown-item" href="#">Paypal</a>
+          <a class="dropdown-item" href="#">Patreon</a>
+        </div>
+      </li>
+
+    </ul>
+    </div>
+  </div>
+</nav>
+  <!-- title -->
+  <div class="container my-4" style="text-align: center">
+    <h1 class="mb-1" style="font-size: 350%; color: #FDF6E3; display: inline;">
+      <img src="/static/Military.png" alt="Military" style="width: 70px; height: 55px;" align="middle">
+      Five Rings Stats
+      <img src="/static/Political.png" alt="Political" style="width: 70px; height: 55px;" align="middle">
+    </h1>
   </div>
   {% block content %}
 

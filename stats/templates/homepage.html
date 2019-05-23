@@ -7,6 +7,24 @@
       <div class="col-lg-6">
 	<div class="jumbotron border px-0 py-0" style="background-color: #FDF6E3;">
 	  <div class="pt-3" style="text-align: center;">
+	    <h3>Clan winrates (%), last 30 days</h3>
+	  </div>
+          {{ winrates|safe }}
+	</div>
+      </div>
+      <div class="col-lg-6">
+	<div class="jumbotron border px-0 py-0" style="background-color: #FDF6E3;">
+	  <div class="pt-3" style="text-align: center;">
+	    <h3>Clan winrates, top (no swiss), last 30 days</h3>
+	  </div>
+          {{ winrates_top|safe }}
+	</div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="jumbotron border px-0 py-0" style="background-color: #FDF6E3;">
+	  <div class="pt-3" style="text-align: center;">
 	    <h3>Clan winrates (%), 30 days periods (up to)</h3>
 	  </div>
 	  {{ time_winrates|safe }}
@@ -15,24 +33,16 @@
       <div class="col-lg-6">
 	<div class="jumbotron border px-0 py-0" style="background-color: #FDF6E3;">
 	  <div class="pt-3" style="text-align: center;">
-	    <h3>Clan winrates (%), last 30 days</h3>
+	    <h3>Clan winrates, top (no swiss), 30 days periods</h3>
 	  </div>
-          {{ winrates|safe }}
+	  {{ time_winrates_top|safe }}	    
 	</div>
       </div>
     </div>
     <div class="row">
       <div class="col-lg-6">
-	<div class="jumbotron border px-0 py-0" style="background-color: #FDF6E3;">
-	  <div class="pt-3" style="text-align: center;">
-	    <h3>Clan matchups (%), last 30 days</h3>
-	  </div>
-	  {{ matchups|safe }}
-	</div>
-      </div>
-      <div class="col-lg-6">
-	<div class="jumbotron border px-0 py-0" style="background-color: #FDF6E3;">
-	  <div class="pt-3" style="text-align: center;">
+        <div class="jumbotron border px-0 py-0" style="background-color: #FDF6E3;">
+          <div class="pt-3" style="text-align: center;">
 	    <h3>Clan attendings (players), last 30 days</h3>
 	  </div>
 	  <div class="row py-2 px-2">
@@ -45,6 +55,41 @@
 	      {% endfor %}
 	    </div>
 	  </div>
+	</div>
+      </div>
+      <div class="col-lg-6">
+	<div class="jumbotron border px-0 py-0" style="background-color: #FDF6E3;">
+	  <div class="pt-3" style="text-align: center;">
+	    <h3>Clans qualified to top (players), last 30 days</h3>
+	  </div>
+	  <div class="row py-2 px-2">
+	    <div class="col-8">
+	      {{ admission|safe }}
+	    </div>
+	    <div class="col-4 my-auto">
+	      {% for name, number in clans_add.items %}
+	        <h4>{{ name }}: {{ number }}</h4>
+	      {% endfor %}
+	    </div>
+	  </div>
+	</div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-6">
+	<div class="jumbotron border px-0 py-0" style="background-color: #FDF6E3;">
+	  <div class="pt-3" style="text-align: center;">
+	    <h3>Clan winrates, formal/premier events, last 30 days</h3>
+	  </div>
+          {{ formal|safe }}
+	</div>
+      </div>
+      <div class="col-lg-6">
+	<div class="jumbotron border px-0 py-0" style="background-color: #FDF6E3;">
+	  <div class="pt-3" style="text-align: center;">
+	    <h3>Clan winrates, premier events, last 30 days</h3>
+	  </div>
+          {{ premier|safe }}
 	</div>
       </div>
     </div>
