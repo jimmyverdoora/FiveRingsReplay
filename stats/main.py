@@ -10,16 +10,18 @@ class Manager(object):
     """
     def __init__(self, end_date=None, start_date=None):
 
+        self.days = 30
         if end_date is None:
             self.end_date = datetime.now()
         else:
             self.end_date = end_date
 
         if start_date is None:
-            self.start_date = self.end_date - timedelta(days=30)
+            self.start_date = self.end_date - timedelta(days=self.days)
         else:
             self.start_date = start_date
-
+            self.days = (self.end_date - self.start_date).days
+ 
         self.games = self._get_games()
 
     def _get_games(self):

@@ -15,6 +15,7 @@
 	<div class="jumbotron border px-0 py-0" style="background-color: #FDF6E3;">
 	  <div class="pt-3" style="text-align: center;">
 	    <h3>Stronghold winrates (%), last 30 days</h3>
+	    <p>Note: A large number of tournaments do not include stronghold data (just clan) for each player, the winrates may then differs from the ones in the home page.</p>
 	  </div>
           {{ winrates_stronghold|safe }}
 	</div>
@@ -23,6 +24,7 @@
         <div class="jumbotron border px-0 py-0" style="background-color: #FDF6E3;">
           <div class="pt-3" style="text-align: center;">
 	    <h3>Stronghold attendings (players), last 30 days</h3>
+	    <p>Note: A large number of tournaments do not include stronghold data (just clan) for each player, the attendings may then differs from the ones in the home page.</p>
 	  </div>
 	  <div class="row py-2 px-2">
 	    <div class="col-8">
@@ -55,6 +57,22 @@
 	</div>
       </div>
     </div>
+
+    <div class="jumbotron border px-0 py-0 mb-0" style="background-color: #FDF6E3;">
+      <div class="row justify-content-center pt-2">
+	<div class="col-lg-2" style="text-align: center;">
+	  <h3>Clan specific stats:</h3>
+	</div>
+	{% for _, clan in clans.items %}
+	<div class="col-lg-1 mb-2" style="text-align: center;">
+	  <a type="button" href="/{{ clan }}" class="btn btn-outline-dark">{{ clan }}</a>
+	</div>
+	{% endfor %}
+      </div>
+    </div>
+
+    <br>
+
   </div>
 
 {% endblock content %}

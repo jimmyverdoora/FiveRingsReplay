@@ -15,13 +15,13 @@ class BaseBar(object):
     Represents the average winrates.
     :param days: number of days the average is made out of
     """
-    def __init__(self, days, **kwargs):
+    def __init__(self, manager, **kwargs):
         self.params = kwargs
         if self.params.get('horizontal', False) == True:
             self.chart = pygal.HorizontalBar(show_legend=False, height=350, style=L5RStyle)
         else:
             self.chart = pygal.Bar(height=350, style=L5RStyle)
-        self.days = days
+        self.manager = manager
 
     def get_data(self):
         """Abstract"""
@@ -67,9 +67,9 @@ class BasePie(object):
     Represents the average winrates.
     :param days: number of days the average is made out of
     """
-    def __init__(self, days):
+    def __init__(self, manager):
         self.chart = pygal.Pie(show_legend=False, height=521, style=L5RStyle)
-        self.days = days
+        self.manager = manager
 
     def get_data(self):
         """Abstract"""
@@ -105,9 +105,9 @@ class BaseDot(object):
     Represents the average winrates.
     :param days: number of days the average is made out of
     """
-    def __init__(self, days):
+    def __init__(self, manager):
         self.chart = pygal.Dot(height=350, style=L5RStyle)
-        self.days = days
+        self.manager = manager
 
     def get_data(self):
         """Abstract"""
@@ -132,9 +132,8 @@ class BaseTime(object):
     :param interval: days to average on
     :param interval_nb: number of intervals
     """
-    def __init__(self, interval, interval_nb=10, **kwargs):
-        self.interval = interval
-        self.interval_nb = interval_nb
+    def __init__(self, managers, **kwargs):
+        self.managers = managers  # the first one is the latest
         self.params = kwargs
 
     def get_data(self):
@@ -143,7 +142,7 @@ class BaseTime(object):
 
     def generate(self):
         chart_data = self.get_data(self.params)
-        day_list = [datetime.now() - timedelta(days=self.interval * t) for t in range(self.interval_nb)][::-1]
+        day_list = [datetime.now() - timedelta(days=self.managers[0].days * t) for t in range(len(self.managers))][::-1]
         labels = [str(day.month) + "/" + str(day.day) for day in day_list]
         chart = pygal.Line(style=L5RStyle, height=350)
         chart.x_labels = labels
@@ -153,7 +152,7 @@ class BaseTime(object):
 
     def generate_clan(self, clan):
         chart_data = self.get_data(clan, self.params)
-        day_list = [datetime.now() - timedelta(days=self.interval * t) for t in range(self.interval_nb)][::-1]
+        day_list = [datetime.now() - timedelta(days=self.managers[0].days * t) for t in range(len(self.managers))][::-1]
         labels = [str(day.month) + "/" + str(day.day) for day in day_list]
         chart = pygal.Line(style=L5RStyle, height=350)
         chart.x_labels = labels

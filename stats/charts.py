@@ -10,8 +10,7 @@ class WinRateChart(BaseBar):
     :param days: number of days the average is made out of
     """
     def get_data(self, top=False, filt3r=None):
-        tier = Manager(start_date=datetime.now() - timedelta(days=self.days))
-        winrate_list = tier.get_clan_tier(top, filt3r)
+        winrate_list = self.manager.get_clan_tier(top, filt3r)
         data = []
         for value in winrate_list:
             if value is None:
@@ -27,8 +26,7 @@ class WinRateStrongholdChart(BaseBar):
     :param days: number of days the average is made out of
     """
     def get_data(self, clan):
-        tier = Manager(start_date=datetime.now() - timedelta(days=self.days))
-        winrate_list, _ = tier.get_stronghold_tier(clan)
+        winrate_list, _ = self.manager.get_stronghold_tier(clan)
         index_list = [i for i, c in enumerate(STRONGHOLDS_OWNERS) if c == clan]
         data = []
         for value in winrate_list[index_list[0]:index_list[-1]+1]:
@@ -49,11 +47,8 @@ class WinRatePlot(BaseTime):
         now = datetime.now()
         # Cotains 7 lists (one for each clan) with the temporal evolution
         data_list = []
-        for t in range(self.interval_nb):
-            end_t = now - timedelta(days=self.interval * t)
-            start_t = now - timedelta(days=self.interval * (t + 1))
-            tier = Manager(end_date=end_t, start_date=start_t)
-            winrate_list = tier.get_clan_tier(top)
+        for manager in self.managers:
+            winrate_list = manager.get_clan_tier(top)
             data = []
             for index, value in enumerate(winrate_list):
                 if value is None:
@@ -70,8 +65,7 @@ class AttendingsChart(BasePie):
     :param days: number of days the average is made out of
     """
     def get_data(self):
-        manager = Manager(start_date=datetime.now() - timedelta(days=self.days))
-        return manager.get_clan_attendings()
+        return self.manager.get_clan_attendings()
 
 
 class AttendingsStrongholdChart(BasePie):
@@ -80,8 +74,7 @@ class AttendingsStrongholdChart(BasePie):
     :param days: number of days the average is made out of
     """
     def get_data(self, clan):
-        manager = Manager(start_date=datetime.now() - timedelta(days=self.days))
-        att_list = manager.get_stronghold_attendings(clan)
+        att_list = self.manager.get_stronghold_attendings(clan)
         index_list = [i for i, c in enumerate(STRONGHOLDS_OWNERS) if c == clan]
         data = []
         return att_list[index_list[0]:index_list[-1]+1] 
@@ -89,8 +82,7 @@ class AttendingsStrongholdChart(BasePie):
 
 class AdmissionChart(BasePie):
     def get_data(self):
-        manager = Manager(start_date=datetime.now() - timedelta(days=self.days))
-        return manager.get_clan_admission()
+        return self.manager.get_clan_admission()
 
 
 class AttendingsPlot(BaseTime):
@@ -103,10 +95,7 @@ class AttendingsPlot(BaseTime):
         now = datetime.now()
         # Cotains 7 lists (one for each clan) with the temporal evolution
         data_list = []
-        for t in range(self.interval_nb):
-            end_t = now - timedelta(days=self.interval * t)
-            start_t = now - timedelta(days=self.interval * (t + 1))
-            manager = Manager(end_date=end_t, start_date=start_t)
+        for manager in self.managers:
             attendings_list = manager.get_clan_attendings() 
             total = sum(attendings_list)
             data = []
@@ -122,8 +111,7 @@ class Matchups(BaseDot):
     :param days: number of days the average is made out of
     """
     def get_data(self):
-        tier = Manager(start_date=datetime.now() - timedelta(days=self.days))
-        winrate_matrix = tier.get_clan_tier_matrix()
+        winrate_matrix = self.manager.get_clan_tier_matrix()
         data = []
         for winrate_list in winrate_matrix:
             tmp_data = []
@@ -142,8 +130,7 @@ class WinRateMatchup(BaseBar):
     :param days: number of days the average is made out of
     """
     def get_data(self, clan, top=False, filt3r=None):
-        tier = Manager(start_date=datetime.now() - timedelta(days=self.days))
-        winrate_list = tier.get_clan_matchups(clan, top, filt3r)
+        winrate_list = self.manager.get_clan_matchups(clan, top, filt3r)
         data = []
         for value in winrate_list:
             if value is None:
@@ -163,11 +150,8 @@ class WinRateMatchupPlot(BaseTime):
         now = datetime.now()
         # Cotains 7 lists (one for each clan) with the temporal evolution
         data_list = []
-        for t in range(self.interval_nb):
-            end_t = now - timedelta(days=self.interval * t)
-            start_t = now - timedelta(days=self.interval * (t + 1))
-            tier = Manager(end_date=end_t, start_date=start_t)
-            winrate_list = tier.get_clan_matchups(clan, top)
+        for manager in self.managers:
+            winrate_list = manager.get_clan_matchups(clan, top)
             data = []
             for index, value in enumerate(winrate_list):
                 if value is None:
